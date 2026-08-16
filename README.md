@@ -2,7 +2,7 @@
 
 # Bike Store SQL & Python Analytics Project
 
-Pet-проект: анализ данных сети веломагазинов от SQL-схемы до статистического тестирования на Python.
+Pet-проект: анализ данных сети веломагазинов с применением SQL и Python для статистических расчетов и визуализации.
 
 ## Датасет
 [Bike Store Relational Database](https://www.kaggle.com/datasets/dillonmyrick/bike-store-sample-database)
@@ -10,18 +10,20 @@ Pet-проект: анализ данных сети веломагазинов 
 по качеству данных за последние месяцы — см. раздел "Ограничения данных").
 
 ## Схема БД
-https://github.com/monologiccc/bike-store-project/blob/main/db_schemas/db_schema_picture.png
+![ER diagram](diagrams/er_diagram.png)
 
 ## Инструменты
-SQLite, DBeaver, Python (pandas, numpy, matplotlib, seaborn, scipy, statsmodels), Jupyter Notebook
+SQLite, DBeaver, Python (pandas, numpy, matplotlib, seaborn, scipy,
+statsmodels), Jupyter Notebook
 
 ## Структура репозитория
 - `sql/01_schema.sql` — создание таблиц и внешних ключей
-- `sql/02_basic_queries.sql` — базовые запросы (SELECT/WHERE/ORDER BY)
 - `sql/03_aggregations.sql` — агрегации (GROUP BY/HAVING)
 - `sql/04_joins.sql` — JOIN-запросы
 - `sql/05_window_functions.sql` — оконные функции и подзапросы
 - `sql/06_business_analysis.sql` — RFM и другие бизнес-запросы
+- `sql/07_advanced_sql.sql` — продвинутые техники: market basket analysis,
+  running total и MoM-рост, pivot через условную агрегацию
 - `notebooks/01_metrics_overview.ipynb` — ключевые метрики: revenue, AOV,
   LTV, RFM-сегментация
 - `notebooks/02_cohort_retention.ipynb` — когортный анализ и retention
@@ -31,6 +33,16 @@ SQLite, DBeaver, Python (pandas, numpy, matplotlib, seaborn, scipy, statsmodels)
 - `notebooks/05_summary_dashboard.ipynb` — итоговая сборка ключевых
   графиков и метрик
 
+## Продвинутый SQL
+`sql/07_advanced_sql.sql` — техники, выходящие за рамки базовых
+SELECT/JOIN/GROUP BY:
+- **Market basket analysis** (self-join) — какие товары чаще всего
+  покупают вместе в одном заказе
+- **Running total и Month-over-Month рост** через оконные функции
+  (`SUM() OVER`, `LAG() OVER`)
+- **Pivot через условную агрегацию** (`CASE WHEN` внутри `SUM`) — выручка
+  по категориям в разрезе магазинов без единой строчки pandas
+
 ## Ключевые выводы
 
 **Метрики и сегментация клиентов**
@@ -38,7 +50,9 @@ SQLite, DBeaver, Python (pandas, numpy, matplotlib, seaborn, scipy, statsmodels)
 - Выручка сильно сконцентрирована: магазин Baldwin Bikes даёт ~68% всей
   выручки сети
 - Mountain Bikes — самая продаваемая категория, почти вдвое опережает
-  Road Bikes
+  Road Bikes; структура спроса по категориям устойчива между магазинами
+  (везде Mountain Bikes даёт ~35-36% выручки, несмотря на разный масштаб
+  самих магазинов)
 - LTV распределён с сильным правым хвостом: медиана $3,860 против среднего
   $5,321 — небольшая группа клиентов формирует непропорционально много
   выручки (топ-5 клиентов — $31,900–$34,800 каждый)
@@ -68,8 +82,9 @@ SQLite, DBeaver, Python (pandas, numpy, matplotlib, seaborn, scipy, statsmodels)
 ## Ограничения данных
 - После марта 2018 данные содержат аномалию: апрельский всплеск в
   необработанных заказах и только единичные Rejected-заказы до конца
-  года — похоже на технический хвост датасета, а не реальную активность.
-  Графики динамики выручки в этом проекте ограничены периодом до
-  2018-03 во избежание искажений
+  года (месяц 2018-05 вообще не содержит ни одного заказа) — похоже на
+  технический хвост датасета, а не реальную активность. Графики динамики
+  выручки в этом проекте ограничены периодом до 2018-03 во избежание
+  искажений
 - A/B-тест смоделирован на реальных исторических данных — в датасете нет
   данных о реальных экспериментах
