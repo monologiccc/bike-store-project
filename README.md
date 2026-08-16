@@ -10,7 +10,7 @@ Pet-проект: анализ данных сети веломагазинов 
 по качеству данных за последние месяцы — см. раздел "Ограничения данных").
 
 ## Схема БД
-![ER diagram](diagrams/er_diagram.png)
+https://github.com/monologiccc/bike-store-project/blob/main/db_schemas/db_schema_picture.png
 
 ## Инструменты
 SQLite, DBeaver, Python (pandas, numpy, matplotlib, seaborn, scipy, statsmodels), Jupyter Notebook
