@@ -1,1 +1,1 @@
-# bike-store-sql-project
+# bike-store-project
